@@ -2,7 +2,6 @@ package edu.iutcs.cr.vehicles;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.Scanner;
 
 /**
  * @author Raian Rahman
@@ -17,94 +16,71 @@ public class Vehicle implements Serializable {
     private boolean available;
     private String registrationNumber;
 
+    /**
+     * Default constructor for deserialization
+     */
     public Vehicle() {
-        setRegistrationNumber();
-        setMake();
-        setModel();
-        setYear();
-        setPrice();
         this.available = true;
     }
 
+    /**
+     * Constructor for lookup by registration number
+     */
     public Vehicle(String registrationNumber) {
         this.registrationNumber = registrationNumber;
+        this.available = true;
+    }
+
+    /**
+     * Full constructor for creating a new vehicle
+     */
+    public Vehicle(String registrationNumber, String make, String model, String year, double price) {
+        this.registrationNumber = registrationNumber;
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.price = price;
+        this.available = true;
     }
 
     public String getRegistrationNumber() {
         return this.registrationNumber;
     }
 
-    public void setRegistrationNumber() {
-        Scanner scanner = new Scanner(System.in);
-        while (this.registrationNumber == null || registrationNumber.isBlank()) {
-            System.out.print("Enter registration number: ");
-            this.registrationNumber = scanner.nextLine();
-
-            if (registrationNumber == null || registrationNumber.isBlank()) {
-                System.out.println("Registration number is mandatory!");
-            }
-        }
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
     }
 
     public String getMake() {
         return make;
     }
 
-    public void setMake() {
-        Scanner scanner = new Scanner(System.in);
-
-        while (this.make == null || this.make.isBlank()) {
-            System.out.print("Enter make: ");
-            this.make = scanner.nextLine();
-
-            if (make == null || make.isBlank()) {
-                System.out.println("Make is mandatory!");
-            }
-        }
+    public void setMake(String make) {
+        this.make = make;
     }
 
     public String getModel() {
         return model;
     }
 
-    public void setModel() {
-        Scanner scanner = new Scanner(System.in);
-
-        while (this.model == null || this.model.isBlank()) {
-            System.out.print("Enter model: ");
-            this.model = scanner.nextLine();
-
-            if (model == null || model.isBlank()) {
-                System.out.println("Model is mandatory!");
-            }
-        }
+    public void setModel(String model) {
+        this.model = model;
     }
 
     public String getYear() {
         return year;
     }
 
-    public void setYear() {
-        Scanner scanner = new Scanner(System.in);
-
-        while (this.year == null || this.year.isBlank()) {
-            System.out.print("Enter year: ");
-            this.year = scanner.nextLine();
-
-            if (year == null || year.isBlank()) {
-                System.out.println("Year is mandatory!");
-            }
-        }
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public void setPrice() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter price: ");
-        this.price = scanner.nextDouble();
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public boolean isAvailable() {
@@ -113,6 +89,10 @@ public class Vehicle implements Serializable {
 
     public void setUnavailable() {
         this.available = false;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     @Override
