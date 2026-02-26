@@ -79,3 +79,7 @@ public class Person implements Serializable {
         return Objects.hash(id);
     }
 }
+
+// Removed all Scanner objects that were never closed
+// Converted all setters to accept parameters instead of reading from console (SRP)
+// Added Person full parameterized constructor

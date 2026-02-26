@@ -44,3 +44,7 @@ public class Buyer extends Person {
                 ", paymentMethod='" + paymentMethod + '\'';
     }
 }
+
+// Removed Scanner that was never closed
+// Removed I/O operations from setter; setPaymentMethod() is now a proper setter
+// Added a full parameterized constructor
