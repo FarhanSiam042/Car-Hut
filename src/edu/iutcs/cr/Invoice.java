@@ -5,7 +5,6 @@ import edu.iutcs.cr.persons.Seller;
 import edu.iutcs.cr.vehicles.Vehicle;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Scanner;
 
 /**
  * @author Raian Rahman
@@ -19,13 +18,50 @@ public class Invoice implements Serializable {
     private boolean isPaid;
     private final LocalDateTime dateTime;
 
-    public Invoice(Buyer buyer, Seller seller, ShoppingCart shoppingCart) {
+    /**
+     * Constructor for creating a new invoice with payment status
+     */
+    public Invoice(Buyer buyer, Seller seller, ShoppingCart shoppingCart, boolean isPaid) {
         this.buyer = buyer;
         this.seller = seller;
         this.shoppingCart = shoppingCart;
-        takePayment();
-        markCarAsUnavailable();
-        dateTime = LocalDateTime.now();
+        this.isPaid = isPaid;
+        this.dateTime = LocalDateTime.now();
+        markVehiclesAsUnavailable();
+    }
+
+    /**
+     * Constructor for deserialization
+     */
+    public Invoice() {
+        this.buyer = null;
+        this.seller = null;
+        this.shoppingCart = null;
+        this.dateTime = LocalDateTime.now();
+    }
+
+    public Buyer getBuyer() {
+        return buyer;
+    }
+
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+
+    public boolean isPaid() {
+        return isPaid;
+    }
+
+    public void setPaymentStatus(boolean isPaid) {
+        this.isPaid = isPaid;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
     public void printInvoice() {
@@ -37,16 +73,18 @@ public class Invoice implements Serializable {
         this.shoppingCart.viewCart();
     }
 
-    public void takePayment() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Is payment done (true/false): ");
-        this.isPaid = scanner.nextBoolean();
-    }
-
-    private void markCarAsUnavailable() {
-        for(Vehicle vehicle: shoppingCart.getVehicles()) {
+    /**
+     * Marks all vehicles in the shopping cart as unavailable
+     */
+    private void markVehiclesAsUnavailable() {
+        for (Vehicle vehicle : shoppingCart.getVehicles()) {
             vehicle.setUnavailable();
         }
     }
 }
+
+// Deleted Scanner that was never closed
+// Removed takePayment() call from constructor
+//  Created setPaymentStatus(boolean isPaid) method (SRP)
+// Added Full Constructor - Invoice(buyer, seller, shoppingCart, isPaid)
+// Added Getter Methods - For accessing all fields
