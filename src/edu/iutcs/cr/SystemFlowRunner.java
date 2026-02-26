@@ -4,7 +4,6 @@ import edu.iutcs.cr.persons.Buyer;
 import edu.iutcs.cr.persons.Seller;
 import edu.iutcs.cr.system.SystemDatabase;
 import edu.iutcs.cr.vehicles.*;
-
 import java.util.Scanner;
 
 /**
@@ -12,7 +11,7 @@ import java.util.Scanner;
  * @since 4/19/2024
  */
 public class SystemFlowRunner {
-
+//Long Class
     public static void run() {
         System.out.println("Welcome to Car Hut");
 
@@ -77,7 +76,7 @@ public class SystemFlowRunner {
             val = scanner.nextInt();
         } while (val != 0);
     }
-
+//Long Class
     private static void addCar() {
         Scanner scanner = new Scanner(System.in);
         SystemDatabase database = SystemDatabase.getInstance();
@@ -120,7 +119,7 @@ public class SystemFlowRunner {
 
         database.getVehicles().add(newItem);
     }
-
+//Long Class
     private static void createOrder() {
         Scanner scanner = new Scanner(System.in);
         SystemDatabase systemDatabase = SystemDatabase.getInstance();

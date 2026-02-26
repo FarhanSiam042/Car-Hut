@@ -2,13 +2,11 @@ package edu.iutcs.cr;
 
 import edu.iutcs.cr.system.SystemDatabase;
 import edu.iutcs.cr.vehicles.Vehicle;
-
 import java.io.Serializable;
 import java.util.HashSet;
+import static java.util.Objects.isNull;
 import java.util.Scanner;
 import java.util.Set;
-
-import static java.util.Objects.isNull;
 
 /**
  * @author Raian Rahman
@@ -27,7 +25,7 @@ public class ShoppingCart implements Serializable {
     public Set<Vehicle> getVehicles() {
         return this.vehicles;
     }
-
+//Resource Leaks (Scnanners not closed)
     public void addItem() {
         Scanner scanner = new Scanner(System.in);
 
@@ -43,7 +41,7 @@ public class ShoppingCart implements Serializable {
 
         vehicles.add(vehicle);
     }
-
+//Resource Leaks (Scnanners not closed)
     public void removeItem() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the registration number of the vehicle: ");

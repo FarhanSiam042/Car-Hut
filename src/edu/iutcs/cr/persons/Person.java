@@ -19,7 +19,8 @@ public class Person implements Serializable {
         setId();
         setEmail();
     }
-
+//Resource Leaks (Scnanners not closed)
+//Violation of Single Responsibility Principle
     public Person(String id) {
         this.id = id;
     }

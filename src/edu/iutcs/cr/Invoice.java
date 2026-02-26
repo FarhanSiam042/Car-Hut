@@ -3,7 +3,6 @@ package edu.iutcs.cr;
 import edu.iutcs.cr.persons.Buyer;
 import edu.iutcs.cr.persons.Seller;
 import edu.iutcs.cr.vehicles.Vehicle;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Scanner;

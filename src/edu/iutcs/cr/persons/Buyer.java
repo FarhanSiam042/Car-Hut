@@ -36,3 +36,4 @@ public class Buyer extends Person implements Serializable {
                 ", paymentMethod='" + paymentMethod + '\'';
     }
 }
+//Resource Leaks (Scnanners not closed)
