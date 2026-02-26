@@ -18,7 +18,7 @@ public class SystemFlowRunner {
     
     private static final Scanner scanner = new Scanner(System.in);
     private static final SystemDatabase database = SystemDatabase.getInstance();
-    private static final MainMenu mainMenu = new MainMenu();
+    private static final MainMenu mainMenu = new MainMenu(scanner);
 
     public static void run() {
         System.out.println("Welcome to Car Hut");

@@ -8,8 +8,14 @@ import java.util.Scanner;
  */
 public class MainMenu {
 
+    private final Scanner scanner;
+
+    public MainMenu(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
     private void showMenu() {
-        System.out.println("Please enter the type of vehicle [1-9]: ");
+        System.out.println("Please enter the type of operation [1-9]: ");
         System.out.println("1. Add new seller");
         System.out.println("2. Add new customer");
         System.out.println("3. Add car");
@@ -26,13 +32,13 @@ public class MainMenu {
     }
 
     public int showAndSelectOperation() {
-        Scanner scanner = new Scanner(System.in);
         showMenu();
         int selectedOperation = -1;
 
         while(selectedOperation<1 || selectedOperation>9) {
             System.out.print("Enter your choice: ");
             selectedOperation = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
 
             if(selectedOperation<1 || selectedOperation>9) {
                 System.out.print("Enter a valid operation: ");
