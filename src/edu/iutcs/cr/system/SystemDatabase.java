@@ -2,17 +2,20 @@ package edu.iutcs.cr.system;
 
 import edu.iutcs.cr.Invoice;
 import edu.iutcs.cr.persons.Buyer;
+import edu.iutcs.cr.persons.Person;
 import edu.iutcs.cr.persons.Seller;
 import edu.iutcs.cr.vehicles.Vehicle;
-
 import java.io.Serializable;
-import java.util.Set;
-
 import static java.util.Objects.isNull;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author Raian Rahman
  * @since 4/19/2024
+ * 
+ * Singleton database for managing all system entities.
+ * WARNING: Singleton pattern makes testing difficult. Consider using dependency injection.
  */
 public class SystemDatabase implements Serializable {
 
@@ -22,10 +25,9 @@ public class SystemDatabase implements Serializable {
     private Set<Invoice> invoices;
 
     private static SystemDatabase instance;
+    private static final DataStore dataStore = new DataStore();
 
     private SystemDatabase() {
-        DataStore dataStore = new DataStore();
-
         buyers = dataStore.loadBuyers();
         sellers = dataStore.loadSellers();
         vehicles = dataStore.loadVehicles();
@@ -36,13 +38,10 @@ public class SystemDatabase implements Serializable {
         if (isNull(instance)) {
             instance = new SystemDatabase();
         }
-
         return instance;
     }
 
     public void saveSystem() {
-        DataStore dataStore = new DataStore();
-
         dataStore.saveBuyers(buyers);
         dataStore.saveSellers(sellers);
         dataStore.saveVehicles(vehicles);
@@ -65,84 +64,69 @@ public class SystemDatabase implements Serializable {
         return invoices;
     }
 
-    public void showInventory() {
-        if (vehicles.isEmpty()) {
-            System.out.println("No vehicles is present in system");
+    /**
+     * Generic display method to eliminate code duplication
+     */
+    private <T> void displayCollection(String emptyMessage, Set<T> collection) {
+        if (collection.isEmpty()) {
+            System.out.println(emptyMessage);
             return;
         }
+        collection.forEach(System.out::println);
+    }
 
-        for (Vehicle vehicle : vehicles) {
-            System.out.println(vehicle.toString());
-        }
+    public void showInventory() {
+        displayCollection("No vehicles is present in system", vehicles);
     }
 
     public void showBuyerList() {
-        if (buyers.isEmpty()) {
-            System.out.println("No buyer is present in system");
-            return;
-        }
-
-        for (Buyer buyer : buyers) {
-            System.out.println(buyer.toString());
-        }
+        displayCollection("No buyer is present in system", buyers);
     }
 
     public void showSellerList() {
-        if (sellers.isEmpty()) {
-            System.out.println("No seller is present in system");
-            return;
-        }
-
-        for (Seller seller : sellers) {
-            System.out.println(seller.toString());
-        }
+        displayCollection("No seller is present in system", sellers);
     }
 
     public void showInvoices() {
-        if(invoices.isEmpty()) {
+        if (invoices.isEmpty()) {
             System.out.println("No invoice found in system");
             return;
         }
-
-        for(Invoice invoice: invoices) {
+        invoices.forEach(invoice -> {
             invoice.printInvoice();
             System.out.println("\n\n\n");
-        }
+        });
     }
 
-    public Vehicle findVehicleByRegistrationNumber(String registrationNumber) {
-        Vehicle newVehicle = new Vehicle(registrationNumber);
-
-        for (Vehicle vehicle : vehicles) {
-            if (vehicle.equals(newVehicle)) {
-                return vehicle;
-            }
-        }
-
-        return null;
+    /**
+     * Generic find method to eliminate code duplication
+     */
+    private <T> Optional<T> findById(Set<T> collection, String id) {
+        return collection.stream()
+                .filter(item -> item.equals(new Person(id)))
+                .map(item -> (T) item)
+                .findFirst();
     }
 
-    public Buyer findBuyerById(String id) {
-        Buyer newBuyer = new Buyer(id);
-
-        for (Buyer buyer : buyers) {
-            if (buyer.equals(newBuyer)) {
-                return buyer;
-            }
-        }
-
-        return null;
+    public Optional<Vehicle> findVehicleByRegistrationNumber(String registrationNumber) {
+        return vehicles.stream()
+                .filter(vehicle -> vehicle.equals(new Vehicle(registrationNumber)))
+                .findFirst();
     }
 
-    public Seller findSellerById(String id) {
-        Seller newSeller = new Seller(id);
+    public Optional<Buyer> findBuyerById(String id) {
+        return buyers.stream()
+                .filter(buyer -> buyer.equals(new Buyer(id)))
+                .findFirst();
+    }
 
-        for (Seller seller : sellers) {
-            if (seller.equals(newSeller)) {
-                return seller;
-            }
-        }
-
-        return null;
+    public Optional<Seller> findSellerById(String id) {
+        return sellers.stream()
+                .filter(seller -> seller.equals(new Seller(id)))
+                .findFirst();
     }
 }
+
+// Eliminated Code Duplication - Created generic displayCollection()  method to replace showInventory(), showBuyerList(), showSellerList()
+// Replaced Null Returns with Optional
+//Changed return types from nullable objects to Optional<T> findVehicleByRegistrationNumber(), findBuyerById(), findSellerById() now return Optional
